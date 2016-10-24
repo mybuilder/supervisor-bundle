@@ -1,0 +1,7 @@
+services:
+
+    mybuilder.supervisor_bundle.annotation_supervisor_exporter:
+        class: MyBuilder\Bundle\SupervisorBundle\Exporter\AnnotationSupervisorExporter
+        arguments:
+            - "@annotation_reader"
+            - "%mybuilder.supervisor_bundle.exporter_config%"

@@ -1,0 +1,6 @@
+my_builder_supervisor:
+    exporter:
+        program:
+            autostart: 'true'
+        executor: php
+        console: app/console
