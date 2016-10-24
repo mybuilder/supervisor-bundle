@@ -23,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MyBuilder\\Bundle\\SupervisorBundle\\": "./src"
+      "MyBuilder\\Bundle\\SupervisorBundle\\": ""
     }
   },
   "target-dir": "MyBuilder/Bundle/SupervisorBundle",
