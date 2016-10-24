@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+env:
+  - SYMFONY_VERSION=2.7.*
+  - SYMFONY_VERSION=2.8.*
+  - SYMFONY_VERSION=3.0.*
+  - SYMFONY_VERSION=3.1.*
+
+before_script:
+  - composer require symfony/framework-bundle:${SYMFONY_VERSION}
+  - composer require symfony/console:${SYMFONY_VERSION}
+
+script: bin/phpunit
