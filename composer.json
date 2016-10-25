@@ -26,7 +26,6 @@
       "MyBuilder\\Bundle\\SupervisorBundle\\": ""
     }
   },
-  "target-dir": "MyBuilder/Bundle/SupervisorBundle",
   "config": {
     "bin-dir": "bin"
   }
