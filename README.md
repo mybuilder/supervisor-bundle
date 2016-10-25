@@ -53,13 +53,13 @@ use MyBuilder\Bundle\SupervisorBundle\Annotation\Supervisor;
 ```
 
 Then define the `@Supervisor` annotation within the command's PHPDoc, which tells Supervisor how to configure this program.
-The example below declares that three instances of this command should be running at all times with the provided parameter `--send`.
+The example below declares that three instances of this command should be running at all times on the server entitled 'web', with the provided parameter `--send`.
 
 ```php
 /**
  * Command for sending our email messages from the database.
  *
- * @Supervisor(processes=3, params="--send")
+ * @Supervisor(processes=3, params="--send", server="web")
  */
 class SendQueuedEmailsCommand extends Command {}
 ```
@@ -71,7 +71,7 @@ You should run `app/console supervisor:dump` and review what the Supervisor conf
 If you are happy with this you can write out the configuration to a `conf` file:
 
 ```
-$ app/console supervisor:dump --user=mybuilder > /etc/supervisor.d/symfony.conf"
+$ app/console supervisor:dump --user=mybuilder --server=web > /etc/supervisor.d/symfony.conf"
 ```
 
 And then reload Supervisor:
@@ -85,7 +85,7 @@ $ kill -SIGHUP $(supervisorctl pid)
 You can choose which environment you want to run the commands in Supervisor under like this:
 
 ```
-$ app/console supervisor:dump --env=prod
+$ app/console supervisor:dump --server=web --env=prod
 ```
 
 ---
