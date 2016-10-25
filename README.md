@@ -71,7 +71,7 @@ You should run `app/console supervisor:dump` and review what the Supervisor conf
 If you are happy with this you can write out the configuration to a `conf` file:
 
 ```
-$ app/console supervisor:dump --user=mybuilder --server=web > /etc/supervisor.d/symfony.conf"
+$ app/console supervisor:dump --user=mybuilder --server=web > "/etc/supervisor.d/symfony.conf"
 ```
 
 And then reload Supervisor:
