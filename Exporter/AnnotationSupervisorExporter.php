@@ -41,12 +41,12 @@ class AnnotationSupervisorExporter
     private function toParsedPrograms(array $commands, array $options)
     {
         $config = isset($this->config['program']) ? (array) $this->config['program'] : [];
-        list($env, $options) = $this->takeEnvironmentFrom($options);
+        list($env, $server, $options) = $this->takeEnvironmentAndServerFrom($options);
         $config += $options;
 
-        return array_reduce($commands, function (array $programs, Command $command) use ($env, $config)
+        return array_reduce($commands, function (array $programs, Command $command) use ($env, $server, $config)
         {
-            foreach ($this->toSupervisorAnnotations($command) as $instance => $annotation) {
+            foreach ($this->toSupervisorAnnotations($command, $server) as $instance => $annotation) {
                 $programs[] = $config + [
                     'name' => $this->buildProgramName($command->getName(), $instance),
                     'command' => $this->buildCommand($command->getName(), $env, $annotation),
@@ -58,21 +58,28 @@ class AnnotationSupervisorExporter
         }, []);
     }
 
-    private function takeEnvironmentFrom(array $options)
+    private function takeEnvironmentAndServerFrom(array $options)
     {
         $env = isset($options['environment']) ? $options['environment'] : null;
+        $server = isset($options['server']) ? $options['server'] : null;
 
         unset($options['environment']);
+        unset($options['server']);
 
-        return [ $env, $options ];
+        return [ $env, $server, $options ];
     }
 
-    private function toSupervisorAnnotations(Command $command)
+    private function toSupervisorAnnotations(Command $command, $server)
     {
         $annotations = $this->reader->getClassAnnotations(new \ReflectionClass($command));
 
-        $filtered = array_filter($annotations, function ($annotation) {
-            return $annotation instanceof SupervisorAnnotation;
+        $filtered = array_filter($annotations, function ($annotation) use ($server)
+        {
+            if ($annotation instanceof SupervisorAnnotation) {
+                return null === $server || $server === $annotation->server;
+            }
+
+            return false;
         });
 
         if (empty($filtered)) {

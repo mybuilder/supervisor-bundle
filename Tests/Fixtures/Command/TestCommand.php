@@ -8,9 +8,9 @@ use MyBuilder\Bundle\SupervisorBundle\Annotation\Supervisor;
 /**
  * Empty command for testing that this bundle can read the supervisor annotations correctly
  *
- * @Supervisor(processes=1)
- * @Supervisor(processes=2)
- * @Supervisor(processes=1, executor="php -d mbstring.func_overload=0", params="--foo")
+ * @Supervisor(processes=1, server="live")
+ * @Supervisor(processes=2, server="live")
+ * @Supervisor(processes=1, executor="php -d mbstring.func_overload=0", params="--foo", server="live")
  */
 class TestCommand extends Command
 {

@@ -26,4 +26,9 @@ class Supervisor
      * @var string
      */
     public $executor;
+
+    /**
+     * @var string
+     */
+    public $server;
 }

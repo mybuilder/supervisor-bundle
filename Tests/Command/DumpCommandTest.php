@@ -32,7 +32,8 @@ class DumpCommandTest extends SupervisorTestCase
         $commandTester = new CommandTester($this->command);
         $commandTester->execute([
             'command' => $this->command->getName(),
-            '--user' => 'mybuilder'
+            '--user' => 'mybuilder',
+            '--server' => 'live'
         ]);
 
         $expected = <<<OUTPUT
