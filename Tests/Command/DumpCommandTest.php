@@ -37,25 +37,25 @@ class DumpCommandTest extends SupervisorTestCase
         ]);
 
         $expected = <<<OUTPUT
-[program:test-command]
+[program:supervisor_test-command]
 autostart=true
 user=mybuilder
-name=test-command
+name=supervisor_test-command
 command=php app/console supervisor:test-command --env=test
 numprocs=1
 
-[program:test-command_2]
+[program:supervisor_test-command_2]
 process_name=%(program_name)s_%(process_num)02d
 autostart=true
 user=mybuilder
-name=test-command_2
+name=supervisor_test-command_2
 command=php app/console supervisor:test-command --env=test
 numprocs=2
 
-[program:test-command_3]
+[program:supervisor_test-command_3]
 autostart=true
 user=mybuilder
-name=test-command_3
+name=supervisor_test-command_3
 command=php -d mbstring.func_overload=0 app/console supervisor:test-command --foo --env=test
 numprocs=1
 OUTPUT;
