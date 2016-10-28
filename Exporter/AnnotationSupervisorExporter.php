@@ -91,9 +91,7 @@ class AnnotationSupervisorExporter
 
     private function buildProgramName($commandName, $instance)
     {
-        $pos = strrpos($commandName, ':');
-
-        $name = (false === $pos) ? $commandName : substr($commandName, $pos + 1);
+        $name = str_replace(':', '_', $commandName);
 
         return (1 === $instance) ? $name : "{$name}_{$instance}";
     }
