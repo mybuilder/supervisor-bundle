@@ -1,6 +1,6 @@
 {
   "name": "mybuilder/supervisor-bundle",
-  "description": "Symfony 2/3 bundle which allows you to use @Supervisor annotations to configure how Supervisor runs your console commands.",
+  "description": "Symfony bundle which allows you to use @Supervisor annotations to configure how Supervisor runs your console commands.",
   "keywords": ["supervisor", "supervisord"],
   "minimum-stability": "stable",
   "license": "MIT",
@@ -14,8 +14,8 @@
   "require": {
     "francodacosta/supervisord": "~1.0",
     "doctrine/annotations": "~1.0",
-    "symfony/console": "~2.7|~3.0",
-    "symfony/framework-bundle": "~2.7|~3.0",
+    "symfony/console": "~2.7|~3.0|~4.0",
+    "symfony/framework-bundle": "~2.7|~3.0|~4.0",
     "php": ">=5.6.0"
   },
   "require-dev": {
