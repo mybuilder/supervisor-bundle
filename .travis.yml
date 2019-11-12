@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.6
   - 7.0
   - 7.3
 
@@ -11,13 +10,6 @@ env:
   - SYMFONY_VERSION=3.4.*
   - SYMFONY_VERSION=4.0.*
   - SYMFONY_VERSION=4.3.*
-
-jobs:
-  exclude:
-    - php: 5.6
-      env: SYMFONY_VERSION=4.0.*
-    - php: 5.6
-      env: SYMFONY_VERSION=4.3.*
 
 before_script:
   - composer update symfony/console:${SYMFONY_VERSION}
