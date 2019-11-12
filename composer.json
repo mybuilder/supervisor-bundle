@@ -14,8 +14,8 @@
   "require": {
     "francodacosta/supervisord": "~1.0",
     "doctrine/annotations": "~1.0",
-    "symfony/console": "~2.7 || ~3.0 || ^4.0",
-    "symfony/framework-bundle": "~2.7 || ~3.0 || ^4.0",
+    "symfony/console": "~2.7 || ~3.0 || ~4.0",
+    "symfony/framework-bundle": "~2.7 || ~3.0 || ~4.0",
     "php": "~7.0"
   },
   "require-dev": {

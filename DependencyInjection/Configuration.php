@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->variableNode('program')->end()
                         ->scalarNode('executor')->example('php')->end()
-                        ->scalarNode('console')->example('app/console')->end()
+                        ->scalarNode('console')->example('app/console (bin/console)')->end()
                     ->end()
             ->end();
 
