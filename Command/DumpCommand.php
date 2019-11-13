@@ -2,13 +2,18 @@
 
 namespace MyBuilder\Bundle\SupervisorBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DumpCommand extends ContainerAwareCommand
+class DumpCommand extends Command implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     protected function configure()
     {
         $this
@@ -44,5 +49,26 @@ class DumpCommand extends ContainerAwareCommand
         }
 
         return $options;
+    }
+
+    /**
+     * @throws \LogicException
+     */
+    protected function getContainer(): ContainerInterface
+    {
+        if (null === $this->container) {
+            $application = $this->getApplication();
+            if (null === $application) {
+                throw new \LogicException('The container cannot be retrieved as the application instance is not yet set.');
+            }
+
+            $this->container = $application->getKernel()->getContainer();
+
+            if (null === $this->container) {
+                throw new \LogicException('The container cannot be retrieved as the kernel has shut down.');
+            }
+        }
+
+        return $this->container;
     }
 }

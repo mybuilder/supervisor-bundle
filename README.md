@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mybuilder/supervisor-bundle.svg?branch=master)](https://travis-ci.org/mybuilder/supervisor-bundle)
 
-A bundle for Symfony 2/3 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
+A bundle for Symfony 2/3/4 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
 
 ## Installation
 
