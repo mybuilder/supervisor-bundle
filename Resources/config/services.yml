@@ -6,3 +6,8 @@ services:
         arguments:
             - "@annotation_reader"
             - "%mybuilder.supervisor_bundle.exporter_config%"
+
+    # Ensure command is loaded within Symfony 4
+    MyBuilder\Bundle\SupervisorBundle\Command\DumpCommand:
+        tags:
+            - { name: 'console.command' }
