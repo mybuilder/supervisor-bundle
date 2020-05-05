@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mybuilder/supervisor-bundle.svg?branch=master)](https://travis-ci.org/mybuilder/supervisor-bundle)
 
-A bundle for Symfony 2/3/4 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
+A bundle for Symfony 3/4 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
 
 ## Installation
 
@@ -16,19 +16,28 @@ $ php composer.phar require mybuilder/supervisor-bundle
 
 ### Enable the bundle
 
-Enable the bundle in the `app/AppKernel.php`:
+Enable the bundle in the `app/AppKernel.php` for Symfony 3:
 
 ``` php
-public function registerBundles() {
-    $bundles = [
+public function registerBundles(): array
+{
+    return [
         new MyBuilder\Bundle\SupervisorBundle\MyBuilderSupervisorBundle(),
     ];
 }
 ```
 
+Enable the bundle in the `config/bundles.php` for Symfony 4:
+
+```php
+return [
+    MyBuilder\Bundle\SupervisorBundle\MyBuilderSupervisorBundle::class => ['all' => true],
+];
+```
+
 ### Configure the bundle
 
-You can add the following to your `config.yml` to define your global export configuration.
+You can add the following to your `config.yml` (Symfony 3) / `packages/my_builder_supervisor.yaml` (Symfony 4) to define your global export configuration.
 
 ```yaml
 my_builder_supervisor:
@@ -41,7 +50,7 @@ my_builder_supervisor:
         executor: php 
         
         # allows you to specify the console that all commands should be passed to
-        console: app/console
+        console: bin/console
 ```
 
 ## Usage
@@ -67,11 +76,11 @@ class SendQueuedEmailsCommand extends Command {}
 
 ## Exporting the Supervisor configuration
 
-You should run `app/console supervisor:dump` and review what the Supervisor configuration will look like based on the current specified definition.
+You should run `bin/console supervisor:dump` and review what the Supervisor configuration will look like based on the current specified definition.
 If you are happy with this you can write out the configuration to a `conf` file:
 
 ```
-$ app/console supervisor:dump --user=mybuilder --server=web > "/etc/supervisor.d/symfony.conf"
+$ bin/console supervisor:dump --user=mybuilder --server=web > "/etc/supervisor.d/symfony.conf"
 ```
 
 And then reload Supervisor:
@@ -85,7 +94,7 @@ $ kill -SIGHUP $(supervisorctl pid)
 You can choose which environment you want to run the commands in Supervisor under like this:
 
 ```
-$ app/console supervisor:dump --server=web --env=prod
+$ bin/console supervisor:dump --server=web --env=prod
 ```
 
 ---

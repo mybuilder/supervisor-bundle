@@ -6,4 +6,4 @@ my_builder_supervisor:
         program:
             autostart: 'true'
         executor: php
-        console: app/console
+        console: bin/console

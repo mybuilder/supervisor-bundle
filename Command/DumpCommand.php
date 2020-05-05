@@ -2,6 +2,7 @@
 
 namespace MyBuilder\Bundle\SupervisorBundle\Command;
 
+use MyBuilder\Bundle\SupervisorBundle\Exporter\AnnotationSupervisorExporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,12 +28,13 @@ class DumpCommand extends Command implements ContainerAwareInterface
     {
         $commands = $this->getApplication()->all();
 
+        /** @var AnnotationSupervisorExporter $exporter */
         $exporter = $this->getContainer()->get('mybuilder.supervisor_bundle.annotation_supervisor_exporter');
 
         $output->write($exporter->export($commands, $this->parseOptions($input)));
     }
 
-    private function parseOptions(InputInterface $input)
+    private function parseOptions(InputInterface $input): array
     {
         $options = [];
 
@@ -51,13 +53,12 @@ class DumpCommand extends Command implements ContainerAwareInterface
         return $options;
     }
 
-    /**
-     * @throws \LogicException
-     */
+    /** @throws \LogicException */
     protected function getContainer(): ContainerInterface
     {
         if (null === $this->container) {
             $application = $this->getApplication();
+
             if (null === $application) {
                 throw new \LogicException('The container cannot be retrieved as the application instance is not yet set.');
             }

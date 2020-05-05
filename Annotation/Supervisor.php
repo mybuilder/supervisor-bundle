@@ -12,23 +12,15 @@ use Doctrine\Common\Annotations\Annotation;
  */
 class Supervisor
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     public $processes;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $params;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $executor;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $server;
 }

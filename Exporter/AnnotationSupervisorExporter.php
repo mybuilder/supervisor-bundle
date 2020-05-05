@@ -10,7 +10,10 @@ use Symfony\Component\Console\Command\Command;
 
 class AnnotationSupervisorExporter
 {
+    /** @var Reader */
     private $reader;
+
+    /** @var array */
     private $config;
 
     public function __construct(Reader $reader, array $config)
@@ -25,7 +28,7 @@ class AnnotationSupervisorExporter
      *
      * @return string The supervisor configuration
      */
-    public function export(array $commands, array $options)
+    public function export(array $commands, array $options): string
     {
         $programs = $this->toParsedPrograms($commands, $options);
 
@@ -41,46 +44,49 @@ class AnnotationSupervisorExporter
     private function toParsedPrograms(array $commands, array $options)
     {
         $config = isset($this->config['program']) ? (array) $this->config['program'] : [];
-        list($env, $server, $options) = $this->takeEnvironmentAndServerFrom($options);
+        [$env, $server, $options] = $this->takeEnvironmentAndServerFrom($options);
         $config += $options;
 
-        return array_reduce($commands, function (array $programs, Command $command) use ($env, $server, $config)
-        {
-            foreach ($this->toSupervisorAnnotations($command, $server) as $instance => $annotation) {
-                $programs[] = $config + [
-                    'name' => $this->buildProgramName($command->getName(), $instance),
-                    'command' => $this->buildCommand($command->getName(), $env, $annotation),
-                    'numprocs' => $annotation->processes,
-                ];
-            }
+        return array_reduce(
+            $commands,
+            function (array $programs, Command $command) use ($env, $server, $config) {
+                foreach ($this->toSupervisorAnnotations($command, $server) as $instance => $annotation) {
+                    $programs[] = $config + [
+                            'name' => $this->buildProgramName($command->getName(), $instance),
+                            'command' => $this->buildCommand($command->getName(), $env, $annotation),
+                            'numprocs' => $annotation->processes,
+                        ];
+                }
 
-            return $programs;
-        }, []);
+                return $programs;
+            }, []
+        );
     }
 
-    private function takeEnvironmentAndServerFrom(array $options)
+    private function takeEnvironmentAndServerFrom(array $options): array
     {
-        $env = isset($options['environment']) ? $options['environment'] : null;
-        $server = isset($options['server']) ? $options['server'] : null;
+        $env = $options['environment'] ?? null;
+        $server = $options['server'] ?? null;
 
-        unset($options['environment']);
-        unset($options['server']);
+        unset($options['environment'], $options['server']);
 
-        return [ $env, $server, $options ];
+        return [$env, $server, $options];
     }
 
-    private function toSupervisorAnnotations(Command $command, $server)
+    private function toSupervisorAnnotations(Command $command, $server): array
     {
         $annotations = $this->reader->getClassAnnotations(new \ReflectionClass($command));
 
-        $filtered = array_filter($annotations, function ($annotation) use ($server)
-        {
-            if ($annotation instanceof SupervisorAnnotation) {
-                return null === $server || $server === $annotation->server;
-            }
+        $filtered = array_filter(
+            $annotations,
+            static function ($annotation) use ($server) {
+                if ($annotation instanceof SupervisorAnnotation) {
+                    return null === $server || $server === $annotation->server;
+                }
 
-            return false;
-        });
+                return false;
+            }
+        );
 
         if (empty($filtered)) {
             return [];
@@ -89,21 +95,21 @@ class AnnotationSupervisorExporter
         return array_combine(range(1, count($filtered)), array_values($filtered));
     }
 
-    private function buildProgramName($commandName, $instance)
+    private function buildProgramName(string $commandName, int $instance): string
     {
         $name = str_replace(':', '_', $commandName);
 
         return (1 === $instance) ? $name : "{$name}_{$instance}";
     }
 
-    private function buildCommand($commandName, $environment, SupervisorAnnotation $annotation)
+    private function buildCommand(string $commandName, string $environment, SupervisorAnnotation $annotation): string
     {
+        $executor = '';
+
         if ($annotation->executor) {
             $executor = $annotation->executor;
-        } else if (isset($this->config['executor'])) {
+        } elseif (isset($this->config['executor'])) {
             $executor = $this->config['executor'];
-        } else {
-            $executor = '';
         }
 
         $console = isset($this->config['console']) ? " {$this->config['console']}" : '';
@@ -113,21 +119,24 @@ class AnnotationSupervisorExporter
         return $executor . $console . ' ' . $commandName . $params . $env;
     }
 
-    private function buildConfiguration(array $programs)
+    private function buildConfiguration(array $programs): Configuration
     {
         $config = new Configuration;
         $config->registerProcessor(new CommandConfigurationProcessor);
 
-        return array_reduce($programs, function (Configuration $config, $program) {
-            $command = new \Francodacosta\Supervisord\Command;
+        return array_reduce(
+            $programs,
+            static function (Configuration $config, $program) {
+                $command = new \Francodacosta\Supervisord\Command;
 
-            foreach ($program as $k => $v) {
-                $command->set($k, $v);
-            }
+                foreach ($program as $k => $v) {
+                    $command->set($k, $v);
+                }
 
-            $config->add($command);
+                $config->add($command);
 
-            return $config;
-        }, $config);
+                return $config;
+            }, $config
+        );
     }
 }
