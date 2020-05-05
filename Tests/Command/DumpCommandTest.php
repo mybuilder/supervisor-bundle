@@ -6,24 +6,30 @@ use MyBuilder\Bundle\SupervisorBundle\Command\DumpCommand;
 use MyBuilder\Bundle\SupervisorBundle\Tests\Fixtures\Command\TestCommand;
 use MyBuilder\Bundle\SupervisorBundle\Tests\SupervisorTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class DumpCommandTest extends SupervisorTestCase
 {
-    private $application;
+    /** @var Command */
     private $command;
 
     protected function setUp(): void
     {
-        $kernel = $this->createKernel();
+        $kernel = self::createKernel();
         $kernel->boot();
 
-        $this->application = new Application($kernel);
+        $application = new Application($kernel);
 
-        $this->application->add(new DumpCommand());
-        $this->application->add(new TestCommand());
+        $application->add(new DumpCommand());
+        $application->add(new TestCommand());
 
-        $this->command = $this->application->find('supervisor:dump');
+        $this->command = $application->find('supervisor:dump');
+    }
+
+    protected function tearDown(): void
+    {
+        self::ensureKernelShutdown();
     }
 
     public function test_dump_export(): void

@@ -5,7 +5,6 @@ namespace MyBuilder\Bundle\SupervisorBundle\Tests\DependencyInjection;
 use MyBuilder\Bundle\SupervisorBundle\DependencyInjection\MyBuilderSupervisorExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 
@@ -24,12 +23,9 @@ class MyBuilderSupervisorExtensionTest extends TestCase
     }
 
     /**
-     * @param array $expected
-     * @param string $file yaml config file to load
-     *
      * @dataProvider providerTestConfig
      */
-    public function test_config(array $expected, $file): void
+    public function test_config(array $expected, string $file): void
     {
         $this->loader->load($this->getConfig($file), $this->container);
 
