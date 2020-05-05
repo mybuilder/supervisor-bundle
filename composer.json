@@ -20,10 +20,11 @@
     "symfony/console": "~3.0||~4.0",
     "symfony/config": "~3.0||~4.0",
     "symfony/framework-bundle": "~3.0||~4.0",
+    "symfony/yaml": "~3.0||^4.0",
     "php": ">=7.3"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.0"
+    "phpunit/phpunit": "~9.0"
   },
   "autoload": {
     "psr-4": {

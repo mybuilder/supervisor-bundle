@@ -12,10 +12,10 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             new FrameworkBundle(),
             new MyBuilderSupervisorBundle(),
-        );
+        ];
 
         return $bundles;
     }

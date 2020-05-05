@@ -76,7 +76,7 @@ class SendQueuedEmailsCommand extends Command {}
 
 ## Exporting the Supervisor configuration
 
-You should run `app/console supervisor:dump` and review what the Supervisor configuration will look like based on the current specified definition.
+You should run `bin/console supervisor:dump` and review what the Supervisor configuration will look like based on the current specified definition.
 If you are happy with this you can write out the configuration to a `conf` file:
 
 ```

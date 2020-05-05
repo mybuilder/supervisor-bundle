@@ -1,5 +1,4 @@
 services:
-
     mybuilder.supervisor_bundle.annotation_supervisor_exporter:
         class: MyBuilder\Bundle\SupervisorBundle\Exporter\AnnotationSupervisorExporter
         public: true
