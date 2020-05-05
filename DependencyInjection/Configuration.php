@@ -7,10 +7,17 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('my_builder_supervisor');
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            // Symfony 4
+            $treeBuilder = new TreeBuilder('my_builder_supervisor');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // Symfony 3
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('my_builder_supervisor');
+        }
 
         $rootNode
             ->children()
@@ -18,7 +25,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->variableNode('program')->end()
                         ->scalarNode('executor')->example('php')->end()
-                        ->scalarNode('console')->example('app/console (bin/console)')->end()
+                        ->scalarNode('console')->example('bin/console')->end()
                     ->end()
             ->end();
 
