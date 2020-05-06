@@ -32,6 +32,8 @@ class DumpCommand extends Command implements ContainerAwareInterface
         $exporter = $this->getContainer()->get('mybuilder.supervisor_bundle.annotation_supervisor_exporter');
 
         $output->write($exporter->export($commands, $this->parseOptions($input)));
+
+        return 0;
     }
 
     private function parseOptions(InputInterface $input): array
