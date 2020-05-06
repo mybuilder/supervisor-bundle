@@ -10,7 +10,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Target("CLASS")
  */
-class Supervisor
+class Supervisor extends Annotation
 {
     /** @var integer */
     public $processes;
