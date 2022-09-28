@@ -11,9 +11,16 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class DumpCommand extends Command implements ContainerAwareInterface
+class DumpCommand extends Command
 {
-    use ContainerAwareTrait;
+    private AnnotationSupervisorExporter $annotationSupervisorExporter;
+
+    public function __construct(AnnotationSupervisorExporter $annotationSupervisorExporter)
+    {
+        $this->annotationSupervisorExporter = $annotationSupervisorExporter;
+
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -24,14 +31,11 @@ class DumpCommand extends Command implements ContainerAwareInterface
             ->addOption('server', null, InputOption::VALUE_OPTIONAL, 'Only include programs for the specified server');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $commands = $this->getApplication()->all();
 
-        /** @var AnnotationSupervisorExporter $exporter */
-        $exporter = $this->getContainer()->get('mybuilder.supervisor_bundle.annotation_supervisor_exporter');
-
-        $output->write($exporter->export($commands, $this->parseOptions($input)));
+        $output->write($this->annotationSupervisorExporter->export($commands, $this->parseOptions($input)));
 
         return 0;
     }
@@ -53,25 +57,5 @@ class DumpCommand extends Command implements ContainerAwareInterface
         }
 
         return $options;
-    }
-
-    /** @throws \LogicException */
-    protected function getContainer(): ContainerInterface
-    {
-        if (null === $this->container) {
-            $application = $this->getApplication();
-
-            if (null === $application) {
-                throw new \LogicException('The container cannot be retrieved as the application instance is not yet set.');
-            }
-
-            $this->container = $application->getKernel()->getContainer();
-
-            if (null === $this->container) {
-                throw new \LogicException('The container cannot be retrieved as the kernel has shut down.');
-            }
-        }
-
-        return $this->container;
     }
 }

@@ -8,5 +8,7 @@ services:
 
     # Ensure command is loaded within Symfony 4
     MyBuilder\Bundle\SupervisorBundle\Command\DumpCommand:
+        arguments:
+            - '@mybuilder.supervisor_bundle.annotation_supervisor_exporter'
         tags:
             - { name: 'console.command' }

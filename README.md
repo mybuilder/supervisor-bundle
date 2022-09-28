@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mybuilder/supervisor-bundle.svg?branch=master)](https://travis-ci.org/mybuilder/supervisor-bundle)
 
-A bundle for Symfony 3/4/5 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
+A bundle for Symfony 4/5 which allows you to use `@Supervisor` annotations to configure how [Supervisor](http://supervisord.org/) runs your console commands.
 
 ## Installation
 
@@ -16,18 +16,7 @@ $ php composer.phar require mybuilder/supervisor-bundle
 
 ### Enable the bundle
 
-Enable the bundle in the `app/AppKernel.php` for Symfony 3:
-
-```php
-public function registerBundles(): array
-{
-    return [
-        new MyBuilder\Bundle\SupervisorBundle\MyBuilderSupervisorBundle(),
-    ];
-}
-```
-
-Enable the bundle in the `config/bundles.php` for Symfony 4/5:
+Enable the bundle in the `config/bundles.php` for Symfony:
 
 ```php
 return [
@@ -37,7 +26,7 @@ return [
 
 ### Configure the bundle
 
-You can add the following to your `config.yml` (Symfony 3) / `packages/my_builder_supervisor.yaml` (Symfony 4/5) to define your global export configuration.
+You can add the following to `packages/my_builder_supervisor.yaml` for Symfony to define your global export configuration:
 
 ```yaml
 my_builder_supervisor:

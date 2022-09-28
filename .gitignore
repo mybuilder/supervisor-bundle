@@ -4,3 +4,4 @@ bin/
 vendor/
 var/
 /Tests/Fixtures/app/cache/
+.phpunit.result.cache

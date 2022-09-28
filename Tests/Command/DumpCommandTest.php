@@ -2,7 +2,6 @@
 
 namespace MyBuilder\Bundle\SupervisorBundle\Tests\Command;
 
-use MyBuilder\Bundle\SupervisorBundle\Command\DumpCommand;
 use MyBuilder\Bundle\SupervisorBundle\Tests\Fixtures\Command\TestCommand;
 use MyBuilder\Bundle\SupervisorBundle\Tests\SupervisorTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -11,8 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class DumpCommandTest extends SupervisorTestCase
 {
-    /** @var Command */
-    private $command;
+    private Command $command;
 
     protected function setUp(): void
     {
@@ -20,8 +18,6 @@ class DumpCommandTest extends SupervisorTestCase
         $kernel->boot();
 
         $application = new Application($kernel);
-
-        $application->add(new DumpCommand());
         $application->add(new TestCommand());
 
         $this->command = $application->find('supervisor:dump');
