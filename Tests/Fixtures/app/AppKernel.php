@@ -2,7 +2,6 @@
 
 namespace MyBuilder\Bundle\SupervisorBundle\Tests\Fixtures\app;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use MyBuilder\Bundle\SupervisorBundle\MyBuilderSupervisorBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -10,7 +9,7 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [
             new FrameworkBundle(),

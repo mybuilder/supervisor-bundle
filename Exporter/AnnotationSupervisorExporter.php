@@ -10,11 +10,8 @@ use Symfony\Component\Console\Command\Command;
 
 class AnnotationSupervisorExporter
 {
-    /** @var Reader */
-    private $reader;
-
-    /** @var array */
-    private $config;
+    private Reader $reader;
+    private array $config;
 
     public function __construct(Reader $reader, array $config)
     {
